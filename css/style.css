@@ -215,3 +215,179 @@ button:focus-visible {
     padding: 32px 22px;
   }
 }
+
+/* =======================================================================
+   DAY 2 — Admin / Kullanıcı sohbet arayüzü (index.html)
+   login.html üzerindeki mevcut kurallara dokunulmadı; sadece yeni
+   sınıflar eklendi.
+   ======================================================================= */
+
+/* index.html'de body, login kartını ortalayan davranıştan çıkıp
+   tam ekran bir düzen kullanır. */
+body.app-body {
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 20px;
+}
+
+.app-layout {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: calc(100vh - 40px);
+  display: flex;
+  gap: 20px;
+}
+
+/* ---------- Sol panel: kullanıcı listesi (sadece admin) ---------- */
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  padding: 20px 14px;
+  overflow-y: auto;
+}
+
+.sidebar-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0 10px 12px;
+}
+
+.user-list {
+  list-style: none;
+}
+
+.user-list-item {
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.user-list-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.user-list-item.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ---------- Sağ panel: sohbet ekranı ---------- */
+.chat-panel {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  overflow: hidden;
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.chat-header h1 {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.chat-subtitle {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.chat-messages {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.empty-state {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.chat-input-area {
+  display: flex;
+  gap: 12px;
+  padding: 16px 20px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.chat-input {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-main);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.chat-input::placeholder {
+  color: rgba(154, 160, 180, 0.7);
+}
+
+.chat-input:focus {
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.btn-send {
+  width: auto;
+  padding: 12px 22px;
+}
+
+/* ---------- Küçük ekranlarda üst üste düzen ---------- */
+@media (max-width: 720px) {
+  .app-layout {
+    flex-direction: column;
+    height: auto;
+    min-height: calc(100vh - 40px);
+  }
+
+  .sidebar {
+    width: 100%;
+    max-height: 160px;
+  }
+
+  .user-list {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+  }
+
+  .user-list-item {
+    flex-shrink: 0;
+  }
+
+  .chat-header {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}

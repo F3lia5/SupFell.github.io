@@ -1,9 +1,14 @@
 // index.js
 // -----------------------------------------------------------------------------
-// index.html sayfasına özel davranışları yönetir:
-// - Giriş yapılmamışsa login.html'e geri gönderir.
-// - Kullanıcı adını ekranda gösterir.
-// - Çıkış Yap butonuna basılınca oturumu temizler.
+// index.html sayfasının ana orkestratörüdür (page bootstrap).
+// Kendi başına arayüz oluşturmaz; role göre hangi modüllerin devreye
+// gireceğine karar verir ve ortak elemanları (başlık, çıkış butonu) bağlar.
+//
+// - Giriş yapılmamışsa login.html'e geri gönderir. (auth.js)
+// - Kullanıcının rolünü users.js'ten okur.
+// - admin  -> admin-panel.js devreye girer (sol kullanıcı listesi).
+// - user   -> sadece sohbet ekranı görünür, başlık "Admin ile Sohbet" olur.
+// - Çıkış Yap butonuna basılınca oturumu temizler. (auth.js)
 // -----------------------------------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -13,11 +18,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const username = getSessionUser();
   if (!username) return; // requireLogin zaten yönlendirdi, güvenlik için ek kontrol.
 
-  const welcomeText = document.getElementById("welcome-text");
-  welcomeText.textContent = `Hoş geldin, ${username}`;
+  const role = getUserRole(username);
 
-  const logoutButton = document.getElementById("logout-button");
-  logoutButton.addEventListener("click", () => {
+  // Karşılama metni (üst bilgi alanında küçük bir alt başlık olarak kalır).
+  document.getElementById("welcome-text").textContent = `Hoş geldin, ${username}`;
+
+  if (role === "admin") {
+    renderAdminPanel();
+    setChatTitle("Bir kullanıcı seçin");
+  } else {
+    // Normal kullanıcı: sol panel hiç render edilmez, sadece sabit başlık.
+    setChatTitle("Admin ile Sohbet");
+  }
+
+  initChatInput();
+
+  document.getElementById("logout-button").addEventListener("click", () => {
     clearSession();
     window.location.href = "login.html";
   });
