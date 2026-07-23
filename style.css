@@ -1,0 +1,217 @@
+/* style.css
+   -----------------------------------------------------------------------
+   Tüm sayfalarda kullanılan ortak karanlık tema.
+   Renk paleti:
+   --bg-deep     : #0B0E14  (ana arkaplan)
+   --bg-glow-1   : #4C5FD5  (mor-mavi parlama)
+   --bg-glow-2   : #22D3B0  (çok hafif turkuaz vurgu)
+   --glass-bg    : rgba(255,255,255,0.06)
+   --glass-border: rgba(255,255,255,0.14)
+   --text-main   : #EDEFF7
+   --text-muted  : #9AA0B4
+   ----------------------------------------------------------------------- */
+
+:root {
+  --bg-deep: #0b0e14;
+  --bg-glow-1: #4c5fd5;
+  --bg-glow-2: #22d3b0;
+  --glass-bg: rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --text-main: #edeff7;
+  --text-muted: #9aa0b4;
+  --accent: #6c7bff;
+  --error: #ff6b6b;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  color: var(--text-main);
+  background: var(--bg-deep);
+  overflow: hidden;
+  padding: 24px;
+}
+
+/* Arka plandaki yumuşak, yavaşça hareket eden ışık lekeleri (imza öğe) */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  width: 60vmax;
+  height: 60vmax;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.28;
+  z-index: 0;
+  animation: drift 22s ease-in-out infinite alternate;
+}
+
+body::before {
+  background: var(--bg-glow-1);
+  top: -20vmax;
+  left: -15vmax;
+}
+
+body::after {
+  background: var(--bg-glow-2);
+  bottom: -22vmax;
+  right: -18vmax;
+  animation-delay: -11s;
+}
+
+@keyframes drift {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(4vmax, 3vmax) scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    animation: none;
+  }
+}
+
+/* ---------- Cam efektli kart (login ve karşılama ekranı ortak) ---------- */
+.glass-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 380px;
+  padding: 40px 32px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  text-align: center;
+}
+
+.glass-card h1 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 28px;
+}
+
+/* ---------- Form alanları ---------- */
+.field {
+  text-align: left;
+  margin-bottom: 18px;
+}
+
+.field label {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.field input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-main);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.field input::placeholder {
+  color: rgba(154, 160, 180, 0.7);
+}
+
+.field input:focus {
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* ---------- Butonlar ---------- */
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border: none;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.05s ease;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  margin-top: 24px;
+  padding: 10px 20px;
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ---------- Hata mesajı ---------- */
+.error-message {
+  min-height: 18px;
+  margin-top: -4px;
+  margin-bottom: 12px;
+  font-size: 0.82rem;
+  color: var(--error);
+  text-align: left;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.error-message.visible {
+  opacity: 1;
+}
+
+/* Erişilebilirlik: klavye ile gezinirken görünür odak halkası */
+input:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Küçük ekranlar ---------- */
+@media (max-width: 420px) {
+  .glass-card {
+    padding: 32px 22px;
+  }
+}

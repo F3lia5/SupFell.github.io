@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ana Sayfa</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- Karşılama kutusu (camsı kart) -->
+    <main class="glass-card">
+      <h1 id="welcome-text">Hoş geldin</h1>
+      <p class="subtitle">Oturumun açık</p>
+
+      <button id="logout-button" class="btn-secondary">Çıkış Yap</button>
+    </main>
+
+    <!-- Modüller sırasıyla yüklenir: önce veri, sonra oturum, sonra sayfa mantığı -->
+    <script src="js/users.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>
