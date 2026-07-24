@@ -27,8 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
     renderAdminPanel();
     setChatTitle("Bir kullanıcı seçin");
   } else {
-    // Normal kullanıcı: sol panel hiç render edilmez, sadece sabit başlık.
+    // Normal kullanıcı: sol panel hiç render edilmez.
+    // Kendi odası (admin_<username>) otomatik olarak açılır.
     setChatTitle("Admin ile Sohbet");
+    openRoom(getRoomId(username), username);
   }
 
   initChatInput();

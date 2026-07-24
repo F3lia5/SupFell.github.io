@@ -30,7 +30,8 @@ function renderAdminPanel() {
 
 /**
  * Bir kullanıcı seçildiğinde çalışır: seçili öğeyi işaretler,
- * sohbet başlığını günceller ve mesaj alanını sıfırlar.
+ * sohbet başlığını günceller ve o kullanıcıyla admin arasındaki
+ * gerçek sohbet odasını açar (mesajları yükler + otomatik kontrolü başlatır).
  * @param {HTMLElement} selectedItem
  * @param {string} username
  */
@@ -42,7 +43,7 @@ function handleUserSelect(selectedItem, username) {
   selectedItem.classList.add("active");
 
   setChatTitle(`${capitalizeFirstLetter(username)} ile Sohbet`);
-  resetChatMessages();
+  openRoom(getRoomId(username), "admin");
 }
 
 /**
